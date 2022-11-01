@@ -5,15 +5,19 @@ import ReactSelect from "./Components/ReactSelect";
 import Button from "./Components/UI/Button";
 import Quiz from "./assets/QuizData";
 import Swal from "sweetalert2";
+import Card from "./Components/UI/Card";
 
 function App() {
   const [gameData, setGameData] = useState([{ q: "", a: "", options: [] }]);
   const [answerData, setAnswerData] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
+  const [questionCounter, setQuestionCounter] = useState([]);
+  const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
 
   const allData = Quiz;
 
   useEffect(() => {
+    console.log(gameData);
     if (gameStarted) {
       const selections = gameData.options.map((item) => {
         return {
@@ -25,15 +29,31 @@ function App() {
     }
   }, [gameData, gameStarted]);
 
-  const newGameHandlerButton = (e) => {
-    let length = allData.length;
-    let rand = Math.floor(Math.random() * length);
-    setGameData({
-      q: allData[rand].q + "?",
-      a: allData[rand].a,
-      options: allData[rand].options,
-    });
+  const startGame = () => {
     setGameStarted(true);
+    setCorrectAnswerCount(0);
+    newQuestion();
+  };
+
+  const newQuestion = (e) => {
+    const length = allData.length;
+    let randNum;
+    do {
+      randNum = Math.floor(Math.random() * length);
+    } while (questionCounter.includes(randNum));
+
+    setQuestionCounter((val) => [...val, randNum]);
+
+    setGameData({
+      q: allData[randNum].q + "?",
+      a: allData[randNum].a,
+      options: allData[randNum].options,
+    });
+
+    if (questionCounter.length === 15) {
+      setGameStarted(false);
+      setQuestionCounter([]);
+    }
   };
 
   const AnswerHandler = (userAnswer) => {
@@ -48,7 +68,10 @@ function App() {
         confirmButtonText: "Next question",
         confirmButtonColor: "green",
       }).then(() => {
-        newGameHandlerButton();
+        newQuestion();
+      });
+      setCorrectAnswerCount((prev) => {
+        return prev + 1;
       });
     } else {
       Swal.fire({
@@ -63,7 +86,7 @@ function App() {
         confirmButtonText: "Next question",
         confirmButtonColor: "red",
       }).then(() => {
-        newGameHandlerButton();
+        newQuestion();
       });
     }
   };
@@ -76,7 +99,17 @@ function App() {
         {!gameStarted && (
           <React.Fragment>
             <p>Test your New Zealand knowledge</p>
-            <Button label="Start Quiz" onClickHandler={newGameHandlerButton} />
+            <Button label="Start Quiz" onClickHandler={startGame} />
+            {correctAnswerCount > 0 && (
+              <Card>
+                <h1 style={{ marginTop: "2px", marginBottom: "2px" }}>
+                  Results
+                </h1>
+                <h2 style={{ marginTop: "2px", marginBottom: "2px" }}>
+                  {correctAnswerCount}/15
+                </h2>
+              </Card>
+            )}
           </React.Fragment>
         )}
       </div>
@@ -88,6 +121,7 @@ function App() {
             onChangeHandle={AnswerHandler}
             selectedAnswer={""}
           />
+          <p>{}</p>
         </div>
       )}
     </React.Fragment>

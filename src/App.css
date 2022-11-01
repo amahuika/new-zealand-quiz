@@ -1,5 +1,7 @@
 body {
   background-color: #282c34;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 h3 {
@@ -19,13 +21,15 @@ h3 {
   margin-bottom: 5px;
 }
 
-.select-dropdown {
-  width: 30%;
-}
-
 .questions {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .questions {
+    text-align: center;
+  }
 }
