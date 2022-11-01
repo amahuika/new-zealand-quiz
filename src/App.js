@@ -102,7 +102,7 @@ function App() {
             <Button label="Start Quiz" onClickHandler={startGame} />
             {correctAnswerCount > 0 && (
               <Card>
-                <h1 style={{ marginTop: "2px", marginBottom: "2px" }}>
+                <h1 style={{ marginTop: "10px", marginBottom: "2px" }}>
                   Results
                 </h1>
                 <h2 style={{ marginTop: "2px", marginBottom: "2px" }}>
