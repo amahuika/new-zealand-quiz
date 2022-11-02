@@ -8,13 +8,15 @@ function ReactSelect(props) {
 
   return (
     <div className="select">
-      <Select
-        options={props.options}
-        placeholder={"Select your answer"}
-        value={props.selectedAnswer}
-        width="300px"
-        onChange={onChangeHandle}
-      />
+      <div className="select-container">
+        <Select
+          options={props.options}
+          placeholder={"Select your answer"}
+          value={props.selectedAnswer}
+          onChange={onChangeHandle}
+          isSearchable={false}
+        />
+      </div>
     </div>
   );
 }

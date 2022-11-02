@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 
-import ReactSelect from "./Components/ReactSelect";
-import Button from "./Components/UI/Button";
 import Quiz from "./assets/QuizData";
 import Swal from "sweetalert2";
-import Card from "./Components/UI/Card";
+import Header from "./Components/Header";
+import DropdownOptions from "./Components/DropdownOptions";
 
 function App() {
   const [gameData, setGameData] = useState([{ q: "", a: "", options: [] }]);
@@ -29,33 +27,41 @@ function App() {
     }
   }, [gameData, gameStarted]);
 
+  //start new game function
   const startGame = () => {
     setGameStarted(true);
     setCorrectAnswerCount(0);
     newQuestion();
   };
 
+  // gets new question from allData
   const newQuestion = (e) => {
     const length = allData.length;
     let randNum;
+    // creates a random number to get a question from game data
     do {
       randNum = Math.floor(Math.random() * length);
+      // checks if that number has already been chosen so we dont repeat questions
     } while (questionCounter.includes(randNum));
 
+    // adds random number to question counter arr
     setQuestionCounter((val) => [...val, randNum]);
 
+    // sets questions and answers for drop down based on the random number
     setGameData({
       q: allData[randNum].q + "?",
       a: allData[randNum].a,
       options: allData[randNum].options,
     });
 
+    // stops game once 15 numbers are in the array meaning 15 questions has been asked
     if (questionCounter.length === 15) {
       setGameStarted(false);
       setQuestionCounter([]);
     }
   };
 
+  // checks if answer is correct or not then fires a sweet alert
   const AnswerHandler = (userAnswer) => {
     if (userAnswer === gameData.a) {
       Swal.fire({
@@ -93,36 +99,19 @@ function App() {
 
   return (
     <React.Fragment>
-      <div className="App-header">
-        <h1>New Zealand Quiz</h1>
+      <Header
+        gameStarted={gameStarted}
+        OnStartGame={startGame}
+        correctAnswerCount={correctAnswerCount}
+      />
 
-        {!gameStarted && (
-          <React.Fragment>
-            <p>Test your New Zealand knowledge</p>
-            <Button label="Start Quiz" onClickHandler={startGame} />
-            {correctAnswerCount > 0 && (
-              <Card>
-                <h1 style={{ marginTop: "10px", marginBottom: "2px" }}>
-                  Results
-                </h1>
-                <h2 style={{ marginTop: "2px", marginBottom: "2px" }}>
-                  {correctAnswerCount}/15
-                </h2>
-              </Card>
-            )}
-          </React.Fragment>
-        )}
-      </div>
       {gameStarted && (
-        <div className="questions">
-          <h3>{gameData.q}</h3>
-          <ReactSelect
-            options={answerData}
-            onChangeHandle={AnswerHandler}
-            selectedAnswer={""}
-          />
-          <p>{}</p>
-        </div>
+        <DropdownOptions
+          numberForQuestion={questionCounter.length}
+          answerData={answerData}
+          AnswerHandler={AnswerHandler}
+          question={gameData.q}
+        />
       )}
     </React.Fragment>
   );

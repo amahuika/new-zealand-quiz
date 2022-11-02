@@ -8,6 +8,7 @@ h3 {
   color: white;
 }
 
+/* styles for  Header.js section */
 .App-header {
   display: flex;
   align-items: center;
@@ -31,5 +32,12 @@ h3 {
 @media only screen and (max-width: 600px) {
   .questions {
     text-align: center;
+  }
+
+  .App-header p {
+    text-align: center;
+  }
+  .select {
+    width: 100%;
   }
 }
