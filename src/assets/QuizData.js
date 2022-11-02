@@ -82,7 +82,7 @@ const Quiz = [
   {
     q: "How tall is Aoraki Mount Cook",
     a: "3,754 metres",
-    options: ["3,518 metres", " 3,754 metres", "3,945 metres", "4,289 metres"],
+    options: ["3,518 metres", "3,754 metres", "3,945 metres", "4,289 metres"],
   },
   {
     q: "When did Captain Cook come to the islands",

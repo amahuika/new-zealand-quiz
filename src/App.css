@@ -27,11 +27,15 @@ h3 {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }
 
 @media only screen and (max-width: 600px) {
   .questions {
     text-align: center;
+    width: 100%;
   }
 
   .App-header p {

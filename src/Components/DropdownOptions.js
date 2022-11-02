@@ -6,10 +6,12 @@ function DropdownOptions(props) {
   };
 
   return (
-    <div>
-      <h3 className="questions">
-        {props.numberForQuestion}. {props.question}
-      </h3>
+    <div className="question-container">
+      <div className="questions">
+        <h3>
+          {props.numberForQuestion}. {props.question}
+        </h3>
+      </div>
 
       <ReactSelect
         options={props.answerData}
