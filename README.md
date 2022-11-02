@@ -9,4 +9,4 @@ The app is live here on netlify https://new-zealand-quiz-react.netlify.app/
 
 ## Author
 
-Aron Mahuika
+Aron Mahuika https://github.com/amahuika
